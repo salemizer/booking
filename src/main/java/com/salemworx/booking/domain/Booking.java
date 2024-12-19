@@ -1,26 +1,19 @@
 package com.salemworx.booking.domain;
 
-import java.time.LocalDateTime;
 import java.util.Date;
 
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
-import jakarta.persistence.FetchType;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
-import jakarta.persistence.JoinTable;
-import jakarta.persistence.ManyToMany;
-import java.util.List;
-
+import jakarta.persistence.ManyToOne;
+import jakarta.persistence.OneToOne;
 import com.fasterxml.jackson.annotation.JsonFormat;
 
 @Entity(name = "booking")
 public class Booking {
 
 	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long bookingId;
 
 	private String desc;
@@ -31,14 +24,13 @@ public class Booking {
 	@JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
 	private Date toDateTime;
 
-	@ManyToMany(cascade = CascadeType.ALL)
-	@JoinTable(name = "booking_customer", joinColumns = @JoinColumn(name = "booking_id"), inverseJoinColumns = @JoinColumn(name = "customer_id"))
-	private List<Customer> customer;
-
-	@ManyToMany(cascade = CascadeType.ALL)
-	@JoinTable(name = "booking_item", joinColumns = @JoinColumn(name = "booking_id"), inverseJoinColumns = @JoinColumn(name = "customer_id"))
-
-	private List<Item> item;
+	@ManyToOne(cascade = CascadeType.ALL)
+	@JoinColumn(name = "customer_id", nullable = false)
+//	@JoinTable(name = "booking_customer", joinColumns = @JoinColumn(name = "booking_id"), inverseJoinColumns = @JoinColumn(name = "customer_id"))
+	private Customer customer;
+	
+	@OneToOne(cascade = CascadeType.ALL)
+	private Item item;
 
 	
 	private Status status;
@@ -75,19 +67,19 @@ public class Booking {
 		this.toDateTime = toDateTime;
 	}
 
-	public List<Customer> getCustomer() {
+	public Customer getCustomer() {
 		return customer;
 	}
 
-	public void setCustomer(List<Customer> customer) {
+	public void setCustomer(Customer customer) {
 		this.customer = customer;
 	}
 
-	public List<Item> getItem() {
+	public Item getItem() {
 		return item;
 	}
 
-	public void setItem(List<Item> item) {
+	public void setItem(Item item) {
 		this.item = item;
 	}
 

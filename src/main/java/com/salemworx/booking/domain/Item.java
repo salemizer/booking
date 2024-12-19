@@ -1,13 +1,9 @@
 package com.salemworx.booking.domain;
 
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
-import jakarta.persistence.FetchType;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
-import jakarta.persistence.ManyToMany;
-
-import java.util.List;
+import jakarta.persistence.OneToOne;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
@@ -15,13 +11,12 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 public class Item {
 
 	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long itemId;
 	private String itemName;
 
-	@JsonIgnore
-	@ManyToMany(mappedBy = "item", fetch = FetchType.LAZY)
-	private List<Booking> booking;
+//	@JsonIgnore
+	@OneToOne(mappedBy = "item", cascade = CascadeType.ALL)
+	private Booking booking;
 
 	public Long getItemId() {
 		return itemId;
@@ -39,12 +34,12 @@ public class Item {
 		this.itemName = itemName;
 	}
 
-	public List<Booking> getBooking() {
-		return booking;
-	}
-
-	public void setBooking(List<Booking> booking) {
-		this.booking = booking;
-	}
+//	public List<Booking> getBooking() {
+//		return booking;
+//	}
+//
+//	public void setBooking(List<Booking> booking) {
+//		this.booking = booking;
+//	}
 
 }
