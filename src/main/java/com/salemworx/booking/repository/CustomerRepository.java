@@ -6,4 +6,5 @@ import com.salemworx.booking.domain.Customer;
 public interface CustomerRepository {
 
 	Optional<Customer> getCustomer(Long customerId);
+	Optional<Customer> createOrUpdateCustomer(Long customerId, Customer customer);
 }

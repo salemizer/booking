@@ -17,5 +17,9 @@ public class CustomerServiceImpl implements CustomerService {
 		// TODO Auto-generated method stub
 		return customerRepo.getCustomer(customerId);
 	}
+	
+	public Optional<Customer> createOrUpdateCustomer(Long customerId, Customer customer){
+		return customerRepo.createOrUpdateCustomer(customerId, customer);
+	}
 
 }

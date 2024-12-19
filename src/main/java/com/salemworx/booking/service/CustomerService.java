@@ -8,4 +8,5 @@ import com.salemworx.booking.domain.Customer;
 public interface CustomerService {
 
 	Optional<Customer> getCustomer(Long customerId);
+	Optional<Customer> createOrUpdateCustomer(Long customerId, Customer customer);
 }

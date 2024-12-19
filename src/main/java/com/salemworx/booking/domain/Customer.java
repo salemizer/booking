@@ -16,6 +16,7 @@ public class Customer {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long customerId;
+	private Long userId;
 	private String customerName;
 	
 	@JsonIgnore
@@ -28,6 +29,14 @@ public class Customer {
 
 	public void setCustomerId(Long customerId) {
 		this.customerId = customerId;
+	}
+
+	public Long getUserId() {
+		return userId;
+	}
+
+	public void setUserId(Long userId) {
+		this.userId = userId;
 	}
 
 	public String getCustomerName() {
