@@ -25,9 +25,13 @@ public class BookingServiceImpl implements BookingService {
 		return bookingRepo.findAll();
 	}
 
+	public Optional<Booking> getBooking(Long bookingId){
+	  return bookingRepo.findById(bookingId);
+	}
+	
 	@Transactional
 	@Override
-	public Optional<Booking> createOrUpdateBooking(Long bookingId, Booking booking) {
+	public synchronized Optional<Booking> createOrUpdateBooking(Long bookingId, Booking booking) {
 		// TODO Auto-generated method stub
 		Optional<Booking> resObj = Optional.empty();
 

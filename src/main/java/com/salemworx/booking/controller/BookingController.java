@@ -19,6 +19,11 @@ public class BookingController {
 	@Autowired
 	private BookingService bookingService;
 
+	@GetMapping("/v1/bookings/{bookingId}")
+	private Optional<Booking> getBooking(@PathVariable Long bookingId) {
+		return bookingService.getBooking(bookingId);
+	}
+	
 	@GetMapping("/v1/bookings")
 	private List<Booking> listBooking() {
 		return bookingService.listBooking();
