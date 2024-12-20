@@ -14,43 +14,47 @@ import jakarta.persistence.PersistenceContext;
 @Repository
 public class CustomerRepositoryImpl implements CustomerRepository {
 
-	private static final Logger logger= LoggerFactory.getLogger(CustomerRepositoryImpl.class);
+	private static final Logger logger = LoggerFactory.getLogger(CustomerRepositoryImpl.class);
+
 	@PersistenceContext
 	private EntityManager entityManager;
 
 	@Override
 	public Optional<Customer> getCustomer(Long customerId) {
 		// TODO Auto-generated method stub
-		String queryString = "select c from customer where c.customerId = :customerId";
-		Query query = entityManager.createQuery(queryString);
-		query.setParameter(0, customerId);
-		Object resObj = query.getSingleResult();
-		if (resObj != null && resObj instanceof Customer)
-			return Optional.ofNullable((Customer) resObj);
-
-		return Optional.empty();
+		Optional<Customer> res = Optional.empty();
+		String queryString = "select c from customer c where c.customerId = :customerId";
+		try {
+			Query query = entityManager.createQuery(queryString);
+			query.setParameter("customerId", customerId);
+			Object resObj = query.getSingleResult();
+			if (resObj != null && resObj instanceof Customer)
+				res = Optional.ofNullable((Customer) resObj);
+		} catch (Throwable th) {
+			logger.debug("****** " + th.getMessage());
+		}
+		return res;
 	}
 
 	@Transactional
 	public Optional<Customer> createOrUpdateCustomer(Long customerId, Customer customer) {
-		Customer managedObj= null;
+		Customer managedObj = null;
 		try {
 			managedObj = entityManager.find(Customer.class, customerId);
 
 			if (managedObj == null) {
-				managedObj= new Customer();
+				managedObj = new Customer();
 				managedObj.setCustomerName(customer.getCustomerName());
 				entityManager.persist(managedObj);
-				return Optional.ofNullable(managedObj); 
+				return Optional.ofNullable(managedObj);
 			}
-				
+
 			managedObj.setCustomerName(customer.getCustomerName());
-			managedObj= entityManager.merge(managedObj);	
-		}
-		catch(Throwable ex) {
+			managedObj = entityManager.merge(managedObj);
+		} catch (Throwable ex) {
 			logger.debug("***** " + ex.getMessage());
 		}
-		return Optional.ofNullable(managedObj); 
+		return Optional.ofNullable(managedObj);
 	}
 
 }

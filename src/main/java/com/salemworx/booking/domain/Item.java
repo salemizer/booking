@@ -12,9 +12,10 @@ public class Item {
 
 	@Id
 	private Long itemId;
+	
 	private String itemName;
 
-//	@JsonIgnore
+	@JsonIgnore
 	@OneToOne(mappedBy = "item", cascade = CascadeType.ALL)
 	private Booking booking;
 
@@ -33,13 +34,5 @@ public class Item {
 	public void setItemName(String itemName) {
 		this.itemName = itemName;
 	}
-
-//	public List<Booking> getBooking() {
-//		return booking;
-//	}
-//
-//	public void setBooking(List<Booking> booking) {
-//		this.booking = booking;
-//	}
 
 }
