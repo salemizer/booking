@@ -11,11 +11,11 @@ import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExcep
 
 @ControllerAdvice
 public class AppExceptionHandler extends ResponseEntityExceptionHandler{
-
+	
 	@ExceptionHandler(BookingException.class)
 	public final ResponseEntity<BookingError> handleBookingException(Exception ex, WebRequest request){
-			return new ResponseEntity(new BookingError("Booking Error! \n"+ex.getMessage()
-			, LocalDateTime.now()), HttpStatus.NOT_FOUND);
+			return new ResponseEntity(new BookingError(ex.getMessage()+"\n"
+			, LocalDateTime.now()), HttpStatus.CONFLICT);
 	}
 
 }

@@ -32,7 +32,6 @@ public class CustomerController {
 		Optional<Customer> res = customerService.getCustomer(customerId);
 		if (res.isEmpty()) {
 			LocalDateTime timestamp= LocalDateTime.now();
-			throw new BookingException();
 		}
 		return new ResponseEntity<Customer>(res.get(), HttpStatus.FOUND);
 	}
