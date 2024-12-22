@@ -9,6 +9,7 @@ import org.springframework.stereotype.Service;
 import com.salemworx.booking.domain.Booking;
 import com.salemworx.booking.domain.Customer;
 import com.salemworx.booking.domain.Item;
+import com.salemworx.booking.exception.BookingException;
 import com.salemworx.booking.repository.BookingRepository;
 
 import jakarta.transaction.Transactional;
@@ -35,7 +36,12 @@ public class BookingServiceImpl implements BookingService {
 		// TODO Auto-generated method stub
 		Optional<Booking> resObj = Optional.empty();
 
-		try {
+	
+			String bookingStatus= bookingRepo.findStatusByBookingId(bookingId);
+			logger.debug("*** " + bookingStatus);
+			if(bookingStatus != null && bookingStatus.equals("ACTIVE"))
+				throw new BookingException("Booking status is Acitve!!!");
+			
 			Booking newBooking = new Booking();
 		
 		    newBooking.setBookingId(bookingId);
@@ -53,10 +59,11 @@ public class BookingServiceImpl implements BookingService {
 			newBooking.setItem(i);
 			newBooking.setStatus(booking.getStatus());
 
+		try {	
 			return resObj= Optional.ofNullable(bookingRepo.save(newBooking));
 			
-		} catch (Throwable th) {
-			logger.debug("****" + th.getMessage());
+		} catch (RuntimeException rte) {
+			logger.debug("****" + rte.getMessage());
 		}
 		return resObj;
 	}
