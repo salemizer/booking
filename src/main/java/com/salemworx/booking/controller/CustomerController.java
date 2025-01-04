@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import com.salemworx.booking.domain.Customer;
+import com.salemworx.booking.dto.CustomerDTO;
 import com.salemworx.booking.exception.BookingException;
 import com.salemworx.booking.exception.CustomException;
 import com.salemworx.booking.service.CustomerService;
@@ -28,12 +29,12 @@ public class CustomerController {
 	private CustomerService customerService;
 
 	@GetMapping("/v1/customers/{customerId}")
-	private ResponseEntity<Customer> getCustomer(@PathVariable Long customerId){
-		Optional<Customer> res = customerService.getCustomer(customerId);
+	private ResponseEntity<CustomerDTO> getCustomer(@PathVariable Long customerId){
+		Optional<CustomerDTO> res = customerService.getCustomer(customerId);
 		if (res.isEmpty()) {
 			LocalDateTime timestamp= LocalDateTime.now();
 		}
-		return new ResponseEntity<Customer>(res.get(), HttpStatus.FOUND);
+		return new ResponseEntity<CustomerDTO>(res.get(), HttpStatus.FOUND);
 	}
 
 	@PutMapping("/v1/customers/{customer_id}")
