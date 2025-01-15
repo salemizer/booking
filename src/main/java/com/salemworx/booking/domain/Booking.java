@@ -34,7 +34,8 @@ public class Booking {
 //	@JoinTable(name = "booking_customer", joinColumns = @JoinColumn(name = "booking_id"), inverseJoinColumns = @JoinColumn(name = "customer_id"))
 	private Customer customer;
 	
-	@OneToOne(cascade = CascadeType.ALL)
+	@ManyToOne(cascade = CascadeType.ALL)
+	@JoinColumn(name = "item_id", nullable = false)
 	private Item item;
 
 	
