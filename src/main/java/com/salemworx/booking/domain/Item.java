@@ -5,6 +5,8 @@ import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
 import jakarta.persistence.OneToMany;
+
+import java.time.LocalDateTime;
 import java.util.List;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
@@ -19,6 +21,12 @@ public class Item {
 	@Column(name = "item_name")
 	private String itemName;
 
+	@Column(name="status")
+	private Status status;
+	
+	@Column(name = "locked_until")
+	private LocalDateTime lockedUntil;
+	
 	@JsonIgnore
 	@OneToMany(cascade = CascadeType.ALL, mappedBy = "item", orphanRemoval = false)
 	private List<Booking> booking;
@@ -39,6 +47,22 @@ public class Item {
 		this.itemName = itemName;
 	}
 
+	public Status getStatus() {
+		return status;
+	}
+
+	public void setStatus(Status status) {
+		this.status = status;
+	}
+	
+	public LocalDateTime getLockedUntil() {
+		return lockedUntil;
+	}
+
+	public void setLockedUntil(LocalDateTime lockedUntil) {
+		this.lockedUntil = lockedUntil;
+	}
+	
 	public List<Booking> getBooking() {
 		return booking;
 	}
@@ -46,4 +70,5 @@ public class Item {
 	public void setBooking(List<Booking> booking) {
 		this.booking = booking;
 	}
+	
 }
