@@ -1,45 +1,31 @@
 package com.salemworx.booking.domain;
 
-import java.util.Date;
 import java.util.Objects;
-
 import jakarta.persistence.CascadeType;
+import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
-import jakarta.persistence.FetchType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
-import jakarta.persistence.OneToOne;
-
-import com.fasterxml.jackson.annotation.JsonBackReference;
-import com.fasterxml.jackson.annotation.JsonFormat;
-import com.fasterxml.jackson.annotation.JsonManagedReference;
 
 @Entity(name = "booking")
 public class Booking {
 
+	@Column(name = "booking_id")
 	@Id
 	private Long bookingId;
 
+	@Column(name = "desc")
 	private String desc;
-
-	@JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
-	private Date fromDateTime;
-
-	@JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
-	private Date toDateTime;
 
 	@ManyToOne(cascade = CascadeType.ALL)
 	@JoinColumn(name = "customer_id", nullable = false)
 //	@JoinTable(name = "booking_customer", joinColumns = @JoinColumn(name = "booking_id"), inverseJoinColumns = @JoinColumn(name = "customer_id"))
 	private Customer customer;
-	
+
 	@ManyToOne(cascade = CascadeType.ALL)
 	@JoinColumn(name = "item_id", nullable = false)
 	private Item item;
-
-	
-	private Status status;
 
 	public Long getBookingId() {
 		return bookingId;
@@ -55,22 +41,6 @@ public class Booking {
 
 	public void setDesc(String desc) {
 		this.desc = desc;
-	}
-
-	public Date getFromDateTime() {
-		return fromDateTime;
-	}
-
-	public void setFromDateTime(Date fromDateTime) {
-		this.fromDateTime = fromDateTime;
-	}
-
-	public Date getToDateTime() {
-		return toDateTime;
-	}
-
-	public void setToDateTime(Date toDateTime) {
-		this.toDateTime = toDateTime;
 	}
 
 	public Customer getCustomer() {
@@ -89,14 +59,6 @@ public class Booking {
 		this.item = item;
 	}
 
-	public Status getStatus() {
-		return status;
-	}
-
-	public void setStatus(Status status) {
-		this.status = status;
-	}
-
 	@Override
 	public int hashCode() {
 		return Objects.hash(bookingId);
@@ -113,5 +75,4 @@ public class Booking {
 		Booking other = (Booking) obj;
 		return other.bookingId.equals(bookingId);
 	}
-
 }
